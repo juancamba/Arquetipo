@@ -1,4 +1,4 @@
-namespace CleanArchitecture.Domain.Abstractions;
+namespace Arquetipo.Domain.Abstractions;
 
 public abstract class Entity<TEntityId> :IEntity
 {

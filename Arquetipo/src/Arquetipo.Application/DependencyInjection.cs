@@ -1,9 +1,9 @@
-using CleanArchitecture.Application.Abstractions.Behaviors;
-using CleanArchitecture.Domain.Alquileres;
+
+
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitecture.Application;
+namespace Arquetipo.Application;
 
 public static class DependencyInjection
 {

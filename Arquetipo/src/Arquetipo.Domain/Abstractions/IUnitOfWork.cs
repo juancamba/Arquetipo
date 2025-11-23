@@ -1,4 +1,4 @@
-namespace CleanArchitecture.Domain.Abstractions;
+namespace Arquetipo.Domain.Abstractions;
 
 public interface IUnitOfWork
 {
