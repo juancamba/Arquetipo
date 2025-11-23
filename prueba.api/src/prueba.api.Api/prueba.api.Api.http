@@ -1,0 +1,14 @@
+@prueba.api.Api_HostAddress = http://localhost:5155
+
+GET {{prueba.api.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{prueba.api.Api_HostAddress}}/alquiler
+Content-Type: application/json
+
+{
+    "idCliente": 1,
+    "idVehiculo": 2
+}
