@@ -69,5 +69,9 @@ dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.cs
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" package Microsoft.EntityFrameworkCore.Tools
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" package Npgsql.EntityFrameworkCore.PostgreSQL
 
+
+dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" Microsoft.EntityFrameworkCore.Design
+
+dotnet add "$srcDir/$solutionName.Api/$solutionName.Api.csproj" Microsoft.EntityFrameworkCore.Design
 #dotnet add package Microsoft.Extensions.Logging.Abstractions
 #dotnet add package Microsoft.Extensions.Configuration

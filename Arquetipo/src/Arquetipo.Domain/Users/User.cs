@@ -1,27 +1,31 @@
+using Arquetipo.Domain.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Arquetipo.Domain.Abstractions;
+
 
 namespace Arquetipo.Domain.Users;
 
-public sealed class User : Entity<Guid>
+public sealed class User : Entity<int>
 {
-    public int UserId {get; private set;}
-    public string? Name {get; private set;}
-    
-    private User(){}
-    
-    private User(Guid id, int userId, string name) : base(id)
+    public Guid Guid { get; private set; }
+    public string? Name { get; private set; }
+
+    private User() { }
+
+    private User(int id, Guid guid, string name) : base(id)
     {
-        UserId = userId;
+        Guid = guid;
         Name = name;
     }
 
-    public static User Create(int userId, string name)
+    public static User Create(int id, string name)
     {
-        var user = new User(Guid.NewGuid(), userId, name);
+        var user = new User(id, Guid.NewGuid(), name);
         return user;
     }
+
+    public static User Create(int id, Guid guid, string name) => new(id, guid, name);
+
 }
