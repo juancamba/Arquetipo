@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Arquetipo.Domain.Abstractions;
+using Arquetipo.Domain.Users;
+using Arquetipo.Infrastructure.Repositories;
 
 namespace Arquetipo.Infrastructure;
 
@@ -22,7 +24,7 @@ public static class DependencyInjection
         });
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
-        
+         services.AddScoped<IUserRepository, UserRepository>();
         
 
 

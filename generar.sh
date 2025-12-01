@@ -64,6 +64,8 @@ dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" 
 dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package FluentValidation.DependencyInjectionExtensions
 dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package Mediator.SourceGenerator --version 3.0.*
 dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package Mediator.Abstractions --version 3.0.*
+dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package ErrorOr
+ 
 
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" package Microsoft.EntityFrameworkCore
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" package Microsoft.EntityFrameworkCore.Tools

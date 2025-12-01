@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace Arquetipo.Infrastructure.Repositories;
 
+using Microsoft.EntityFrameworkCore;
 internal sealed class UserRepository : Repository<User, int>, IUserRepository
 {
     public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
-        
+
     }
 
-    public Task<bool> IsUserExists(string name, CancellationToken cancellationToken = default)
+    public async Task<bool> IsUserExists(string name, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _appDbContext.Users.AnyAsync(c => c.Name == name, cancellationToken);
+
     }
 }

@@ -1,10 +1,11 @@
 using Arquetipo.Domain.Abstractions;
+using Arquetipo.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 namespace Arquetipo.Infrastructure;
 
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
-    
+     public DbSet<User> Users { get; set; }
      
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)  {  }
 

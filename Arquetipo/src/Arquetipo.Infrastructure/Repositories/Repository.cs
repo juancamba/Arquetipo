@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 namespace Arquetipo.Infrastructure.Repositories;
 
 internal abstract class Repository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>
@@ -56,33 +56,36 @@ where TEntityId : notnull
     {
         _appDbContext = dbContext;
     }
-    public void Add(TEntity entity)
+
+    public async Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        Console.WriteLine("Guardando Entity!!");
+        return await _appDbContext.Set<TEntity>()
+            .ToListAsync(cancellationToken);
+    }
+    public async Task<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
+    {
+        return await _appDbContext.Set<TEntity>()
+            .FirstOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken);
+    }
+    public virtual void Add(TEntity entity)
+    {
+        _appDbContext.Add(entity);
     }
 
-    public void Delete(TEntity entity)
+    public virtual void Update(TEntity entity)
     {
-        throw new NotImplementedException();
+        _appDbContext.Update(entity);
     }
-
-    public Task DeleteByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
+    public virtual void Delete(TEntity entity)
     {
-        throw new NotImplementedException();
+        _appDbContext.Remove(entity);
     }
-
-    public Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task DeleteByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Update(TEntity entity)
-    {
-        throw new NotImplementedException();
+        var entity = await GetByIdAsync(id, cancellationToken);
+        if (entity != null)
+        {
+            Delete(entity);
+        }
     }
 }

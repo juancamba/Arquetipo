@@ -38,7 +38,7 @@ namespace Arquetipo.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("users", (string)null);
                 });
 #pragma warning restore 612, 618
         }
