@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Arquetipo.Domain.Abstractions;
 using Arquetipo.Domain.Users;
 using Arquetipo.Infrastructure.Repositories;
+using Arquetipo.Application.Abstractions.Email;
 
 namespace Arquetipo.Infrastructure;
 
@@ -16,7 +17,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
 
-       var connectionString = configuration.GetConnectionString("Database");
+        var connectionString = configuration.GetConnectionString("Database");
 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -24,9 +25,9 @@ public static class DependencyInjection
         });
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
-         services.AddScoped<IUserRepository, UserRepository>();
-        
+        services.AddScoped<IUserRepository, UserRepository>();
 
+        services.AddTransient<IEmailService, EmailService>();
 
         return services;
     }

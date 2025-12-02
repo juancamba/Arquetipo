@@ -1,4 +1,5 @@
 using Arquetipo.Domain.Abstractions;
+using Arquetipo.Domain.Users.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,17 @@ public sealed class User : Entity<int>
     public static User Create(int id, string name)
     {
         var user = new User(id, Guid.NewGuid(), name);
+
+        user.RaiseDomainEvent(new UserCreatedDomainEvent(id));
         return user;
     }
 
-    public static User Create(int id, Guid guid, string name) => new(id, guid, name);
+    public static User Create(int id, Guid guid, string name)
+    {
+        
+        var user = new User(id, guid, name);
+         user.RaiseDomainEvent(new UserCreatedDomainEvent(id));
+        return user;
+    } 
 
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Arquetipo.Domain.Abstractions;
 
-    public interface IEntity
-    {
-        IReadOnlyList<IDomainEvent> GetDomainEvents();
-        void ClearDomainEvents();
-    }
+public interface IEntity
+{
+    IReadOnlyList<IDomainEvent> GetDomainEvents();
+    void ClearDomainEvents();
+}

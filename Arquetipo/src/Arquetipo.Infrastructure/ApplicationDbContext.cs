@@ -1,11 +1,19 @@
+using Arquetipo.Application.Exceptions;
 using Arquetipo.Domain.Abstractions;
 using Arquetipo.Domain.Users;
+using Arquetipo.Infrastructure.Outbox;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 namespace Arquetipo.Infrastructure;
 
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
      public DbSet<User> Users { get; set; }
+
+     private static readonly JsonSerializerSettings jsonSerializerSettings = new()
+    {
+        TypeNameHandling  = TypeNameHandling.All
+    };
      
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)  {  }
 
@@ -16,12 +24,12 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {/*
+    {
         try
         {
             
             
-            //AddDomainEventsToOutboxMessages();
+            AddDomainEventsToOutboxMessages();
             var result = await base.SaveChangesAsync(cancellationToken);
             //  await PublishDomainEventsAsync();
             return result;
@@ -30,14 +38,14 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
         {
             throw new ConcurrencyException("La excepcion por concurrencia se disparo", ex);
         }
-        */
+        
 
-        return await base.SaveChangesAsync(cancellationToken);
+       // return await base.SaveChangesAsync(cancellationToken);
     }
 
     private void AddDomainEventsToOutboxMessages()
     {
-        /*
+        
         var outboxMessages = ChangeTracker
             .Entries<IEntity>()
             .Select(entry => entry.Entity)
@@ -48,7 +56,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
                 return domainEvents;
             }).Select(domainEvent=> new OutboxMessage(
                 Guid.NewGuid(), 
-                _dateTimeProvider.currentTime,
+                DateTime.UtcNow,
                 domainEvent.GetType().Name,
                 JsonConvert.SerializeObject(domainEvent,jsonSerializerSettings)
             ))
@@ -56,7 +64,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
             
             ;
         AddRange(outboxMessages);
-        */
+        
 
     }
 

@@ -74,6 +74,8 @@ dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.cs
 
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" Microsoft.EntityFrameworkCore.Design
 
+dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" Newtonsoft.Json
+
 dotnet add "$srcDir/$solutionName.Api/$solutionName.Api.csproj" Microsoft.EntityFrameworkCore.Design
 #dotnet add package Microsoft.Extensions.Logging.Abstractions
 #dotnet add package Microsoft.Extensions.Configuration
