@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Arquetipo.Application.Users.CreateUser
 {
-    internal class CreateUserCommandHandler(IUserRepository _userRepository, IUnitOfWork _unitOfWork, ILogger<CreateUserCommandHandler> _logger) 
+    internal sealed class CreateUserCommandHandler(IUserRepository _userRepository, IUnitOfWork _unitOfWork, ILogger<CreateUserCommandHandler> _logger) 
     : ICommandHandler<CreateUserCommand, ErrorOr<UserResponse>>
     {
 
