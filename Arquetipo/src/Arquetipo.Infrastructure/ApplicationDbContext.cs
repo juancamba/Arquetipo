@@ -9,6 +9,7 @@ namespace Arquetipo.Infrastructure;
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
      public DbSet<User> Users { get; set; }
+     public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
      private static readonly JsonSerializerSettings jsonSerializerSettings = new()
     {
@@ -27,25 +28,18 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     {
         try
         {
-            
-            
             AddDomainEventsToOutboxMessages();
             var result = await base.SaveChangesAsync(cancellationToken);
-            //  await PublishDomainEventsAsync();
             return result;
         }
         catch (DbUpdateConcurrencyException ex)
         {
             throw new ConcurrencyException("La excepcion por concurrencia se disparo", ex);
         }
-        
-
-       // return await base.SaveChangesAsync(cancellationToken);
     }
 
     private void AddDomainEventsToOutboxMessages()
     {
-        
         var outboxMessages = ChangeTracker
             .Entries<IEntity>()
             .Select(entry => entry.Entity)
@@ -60,32 +54,8 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
                 domainEvent.GetType().Name,
                 JsonConvert.SerializeObject(domainEvent,jsonSerializerSettings)
             ))
-            .ToList()
-            
-            ;
+            .ToList();
+        
         AddRange(outboxMessages);
-        
-
     }
-
-    private async Task PublishDomainEventsAsync()
-    {
-        var domainEvents = ChangeTracker
-            .Entries<IEntity>()
-            .Select(entry => entry.Entity)
-            .SelectMany(entity => 
-            {
-                var domainEvents = entity.GetDomainEvents();
-                entity.ClearDomainEvents();
-                return domainEvents;
-            }).ToList();
-        
-        foreach(var domainEvent in domainEvents)
-        {
-            //await _publisher.Publish(domainEvent);
-        }
-
-    }
-
-
 }
