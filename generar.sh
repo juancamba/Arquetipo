@@ -64,10 +64,18 @@ dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" 
 dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package FluentValidation.DependencyInjectionExtensions
 dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package Mediator.SourceGenerator --version 3.0.*
 dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package Mediator.Abstractions --version 3.0.*
+dotnet add "$srcDir/$solutionName.Application/$solutionName.Application.csproj" package ErrorOr
+ 
 
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" package Microsoft.EntityFrameworkCore
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" package Microsoft.EntityFrameworkCore.Tools
 dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" package Npgsql.EntityFrameworkCore.PostgreSQL
 
+
+dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" Microsoft.EntityFrameworkCore.Design
+
+dotnet add "$srcDir/$solutionName.Infrastructure/$solutionName.Infrastructure.csproj" Newtonsoft.Json
+
+dotnet add "$srcDir/$solutionName.Api/$solutionName.Api.csproj" Microsoft.EntityFrameworkCore.Design
 #dotnet add package Microsoft.Extensions.Logging.Abstractions
 #dotnet add package Microsoft.Extensions.Configuration
