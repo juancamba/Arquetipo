@@ -37,10 +37,7 @@ namespace Arquetipo.Api.Controllers
         {
             var result = await _mediator.Send(new GetAllUsersQuery(), cancellationToken);
 
-            if (result.IsError)
-            {
-                return result.Errors.ToProblem();
-            }
+        
             return Results.Ok(result.Value);
         }
     }

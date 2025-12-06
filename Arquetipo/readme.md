@@ -39,3 +39,26 @@ dotnet ef --verbose migrations add InitialCreate -p src/Arquetipo.Infrastructure
 dotnet ef database update -p src/Arquetipo.Infrastructure -s src/Arquetipo.Api
 
 docker run -d   --name postgres -e POSTGRES_PASSWORD=postgres  -e POSTGRES_DB=postgres -p 5432:5432  postgres:16
+
+# Testing
+
+## Integration test
+Integration test solo se prueba commandHandler -> BD y que las respuestas y mapeos sean correctas.
+
+
+Los controladores no se prueban aqui sino que se hacen en End To End
+
+## End to end
+Se moque el commandhandler y el queryhanlder. Aqui se prueban las respuestas
+
+
+## Arquetipo.Architecture.UnitTest
+Aqui se prueba la arquitectura que no se rompan los principios de la arquitectura hexagonal
+
+## Arquetipo.Application.UnitTest 
+Aqui se prueban los casos de uso, moqueando la base de datos u otros servicios externnos como pueden ser apis, ficheros, etc.
+
+## Domain Test
+* Que se crea correctamente los objetos de dominio.
+* Que se levantan los Eventos de dominio.
+* Si hay Servicios de dominio, se prueban aqui. 

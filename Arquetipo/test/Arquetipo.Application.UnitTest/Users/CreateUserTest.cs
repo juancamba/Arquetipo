@@ -12,7 +12,7 @@ using Moq;
 namespace Arquetipo.Application.UnitTest.Users
 {
 
-    public class UserCreateTest
+    public class CreateUserTest
     {
         private readonly Mock<IUserRepository> _userRepositoryMock = new();
         private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
