@@ -1,4 +1,21 @@
+# Arquetipo de Clean Architecture .Net
 
+
+📌 Propuesta por Robert C. Martin (Uncle Bob)
+
+Idea central: Organizar el código en capas concéntricas, donde las dependencias siempre apuntan hacia el centro.
+
+```
+┌─────────────────────────┐
+│        UI / API         │  → ASP.NET Core (Controllers)
+├─────────────────────────┤
+│     Application         │  → Use Cases
+├─────────────────────────┤
+│        Domain           │  → Entidades, reglas
+├─────────────────────────┤
+│    Infrastructure       │  → EF Core, DB, Email
+└─────────────────────────┘
+```
 
 ## Ejecución
 
@@ -11,7 +28,7 @@ https://github.com/martinothamar/Mediator
 Importante con esta libreria no meter en mas de un proyecto el source generato, sino falla. Solo debe estar en aquel que hagas el config, en application
 
 ## Casos de uso
-Los agrupamos en aplication dentro de la entidad que le da nombre por ejemplo si tenemos Users tenemos un caso de uso CreateUser, creamos la carpete Users/CreateUser y ahi dentro metemos el command, el commandHanlder, el validator y los eventHanlder ( los que controlan los eventos de dominio)
+Los agrupamos en aplication dentro de la entidad que le da nombre por ejemplo si tenemos Users tenemos un caso de uso CreateUser, creamos la carpeta Users/CreateUser y ahi dentro metemos el command, el commandHanlder, el validator y los eventHanlder ( los que controlan los eventos de dominio)
 
 ## Domain
 
@@ -25,7 +42,7 @@ Estos se almacenan en la tabla outbox_messages usando el outbox pattern
 
 Luego con el job InvokeOutboxMessagesJob se intantan disparar si es menester. PUede ser que solo sea enviar un correo electronico, publicar en el bus o lo que sea. 
 
-Es decir se si ocurre un UserCreatedDomainEvent el job intentará lanzar CreateUserDomainEventHandler que implementa la interfaz de Mediator INotification. Esto nos permite separar los concerns una cosa es el evento de dominio, otra la lógica de negocio que se implementa en el CommandHandler CreateUserCommandHandler.
+Es decir se si ocurre un UserCreatedDomainEvent el job intentará lanzar CreateUserDomainEventHandler que implementa la interfaz de Mediator INotification. Esto nos permite separar los concerns: una cosa es el evento de dominio, otra la lógica de negocio que se implementa en el CommandHandler CreateUserCommandHandler.
 
 ## Base de datos
 
