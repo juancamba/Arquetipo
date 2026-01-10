@@ -3,7 +3,11 @@
 
 📌 Propuesta por Robert C. Martin (Uncle Bob)
 
-Idea central: Organizar el código en capas concéntricas, donde las dependencias siempre apuntan hacia el centro.
+Idea central: 
+* Organizar el código en capas concéntricas, donde las dependencias siempre apuntan hacia el centro.
+* Agrupar los casos de uso
+* Seperar de la lógica de negocio, todo lo que no lo es: notificaciones, logs, etc.
+
 
 ```
 ┌─────────────────────────┐
@@ -19,13 +23,26 @@ Idea central: Organizar el código en capas concéntricas, donde las dependencia
 
 ## Ejecución
 
-dotnet run dentro de src/Arquetipo.Api
 
+```bash
+### 👉  La primera vez que levantas, configura tu base de datos
+# Instalar dotnet-ef para migrar la base de datos
+dotnet tool install --global dotnet-ef
+
+# Levantar una base de datos  postgres, con docker ( o en tu server favorito )
+docker run -d --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -p 5432:5432 postgres:16
+
+# Ejecutar la migracion 
+dotnet ef database update -p src/Arquetipo.Infrastructure -s src/Arquetipo.Api
+
+# Ejecutar la aplicación
+dotnet run dentro de src/Arquetipo.Api
+```
 
 ## librerias
 https://github.com/martinothamar/Mediator
 
-Importante con esta libreria no meter en mas de un proyecto el source generato, sino falla. Solo debe estar en aquel que hagas el config, en application
+Importante con esta libreria no meter en mas de un proyecto el source generator, sino falla. Solo debe estar en aquel que hagas el config, en application
 
 ## Casos de uso
 Los agrupamos en aplication dentro de la entidad que le da nombre por ejemplo si tenemos Users tenemos un caso de uso CreateUser, creamos la carpeta Users/CreateUser y ahi dentro metemos el command, el commandHanlder, el validator y los eventHanlder ( los que controlan los eventos de dominio)
@@ -49,14 +66,17 @@ Es decir se si ocurre un UserCreatedDomainEvent el job intentará lanzar CreateU
 Usamos un mapeo explicito para facilitar la comprensión y lectura de código. Se crea ademas una clase de configuración dentro de Infrastructure/Configurations por cada entidad de base de datos
 
 
-### Migracion desde el raiz de la aplicaión:
+### Migracion desde el raiz de la aplicación:
+
+```bash
 
 dotnet ef --verbose migrations add InitialCreate -p src/Arquetipo.Infrastructure/ -s src/Arquetipo.Api
 
+# previamente tienes que tener la base de datos en ejecución
 dotnet ef database update -p src/Arquetipo.Infrastructure -s src/Arquetipo.Api
 
-docker run -d   --name postgres -e POSTGRES_PASSWORD=postgres  -e POSTGRES_DB=postgres -p 5432:5432  postgres:16
 
+```
 # Testing
 
 ## Integration test
