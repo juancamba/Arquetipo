@@ -1,6 +1,14 @@
 @Arquetipo.Api_HostAddress = http://localhost:5169
 
-GET {{Arquetipo.Api_HostAddress}}/weatherforecast/
+GET {{Arquetipo.Api_HostAddress}}/api/users
 Accept: application/json
 
 ###
+POST {{Arquetipo.Api_HostAddress}}/api/users
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "Miguel Santos"
+}
