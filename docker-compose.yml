@@ -1,0 +1,10 @@
+services:
+  arquetipodb:
+    image: postgres:16.0
+
+  arquetipoapi:
+    image: ${DOCKER_REGISTRY-}arquetipoapi
+    build:
+      context: .
+      dockerfile: src/Arquetipo.Api/Dockerfile
+ 

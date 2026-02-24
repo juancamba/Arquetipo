@@ -1,0 +1,25 @@
+services:
+  arquetipodb:
+    container_name: arquetipodb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=arquetipo
+    restart: always
+    # creamos el volumen a nivel del proyecto
+    volumes:
+      - ./.containers/database:/var/lib/postgresql/data/
+    ports:
+      - 15432:5432
+
+  arquetipoapi:
+    container_name: arquetipoapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - "ConnectionStrings__Database=Host=arquetipodb;Port=5432;Database=arquetipo;Username=postgres;Password=postgres;Ssl Mode=Disable;Trust Server Certificate=true;Include Error Detail=true"
+    depends_on:
+      - arquetipodb
+    ports:
+     - 80:5000 # Cambia aquí: puerto 80 del contenedor se mapea al 8080 del host
+
