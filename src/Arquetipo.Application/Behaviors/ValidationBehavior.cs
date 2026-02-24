@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Arquetipo.Application.Exceptions;
 using FluentValidation;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Arquetipo.Application.Behaviors
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IBaseCommand
+    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IBaseCommand
     {
         private readonly IServiceProvider _provider;
 
@@ -27,16 +29,21 @@ namespace Arquetipo.Application.Behaviors
             if (validators.Any())
             {
                 var context = new ValidationContext<TRequest>(message);
-                var failures = validators
-                    .Select(v => v.Validate(context))
-                    .SelectMany(r => r.Errors)
-                    .Where(f => f != null)
-                    .ToList();
+           
+                var validationErrors = validators
+                    .Select(validators => validators.Validate(context))
+                    .Where(validationResult => validationResult.Errors.Any())
+                    .SelectMany(validationResult => validationResult.Errors)
+                    .Select(validationFailure => new ValidationError(
+                        validationFailure.PropertyName,
+                        validationFailure.ErrorMessage
+                    )).ToList();
 
-                if (failures.Any())
+                if (validationErrors.Any())
                 {
-                    throw new ValidationException(failures);
+                    throw new Exceptions.ValidationException(validationErrors);
                 }
+
             }
 
 

@@ -7,4 +7,4 @@ using System.Text;
 
 namespace Arquetipo.Application.Users.CreateUser;
 
-public sealed record CreateUserCommand(int Id, string Name) : ICommand<ErrorOr<UserResponse>>;
+public sealed record CreateUserCommand(int Id, string Name) : ICommand<ErrorOr<UserResponse>>, IBaseCommand;

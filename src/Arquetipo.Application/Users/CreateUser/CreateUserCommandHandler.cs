@@ -2,6 +2,8 @@
 using Arquetipo.Domain.Abstractions;
 using Arquetipo.Domain.Users;
 using ErrorOr;
+using Mapster;
+using MapsterMapper;
 using Mediator;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +12,7 @@ using System.Text;
 
 namespace Arquetipo.Application.Users.CreateUser
 {
-    internal sealed class CreateUserCommandHandler(IUserRepository _userRepository, IUnitOfWork _unitOfWork, ILogger<CreateUserCommandHandler> _logger) 
+    internal sealed class CreateUserCommandHandler(IUserRepository _userRepository, IUnitOfWork _unitOfWork, ILogger<CreateUserCommandHandler> _logger, IMapper _mapper) 
     : ICommandHandler<CreateUserCommand, ErrorOr<UserResponse>>
     {
 
@@ -31,8 +33,8 @@ namespace Arquetipo.Application.Users.CreateUser
             User user = User.Create(command.Id, command.Name);
             _userRepository.Add(user);
             await _unitOfWork.SaveChangesAsync();
+            var response = _mapper.Map<UserResponse>(user);
 
-            var response = new UserResponse(user.Id, user.Name!, user.Guid);
 
             return response;
         }
