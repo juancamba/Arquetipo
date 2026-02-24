@@ -20,7 +20,7 @@ public static class DependencyInjection
     {
 
         
-         services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
+        services.Configure<OutboxOptions>(configuration.GetSection("Outbox"));
         services.AddQuartz();
         services.AddQuartzHostedService(options =>          
             options.WaitForJobsToComplete = true

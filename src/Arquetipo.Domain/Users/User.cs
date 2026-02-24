@@ -14,6 +14,7 @@ public sealed class User : Entity<int>
     public string? Name { get; private set; }
 
     private User() { }
+    
 
     private User(int id, Guid guid, string name) : base(id)
     {
@@ -33,7 +34,8 @@ public sealed class User : Entity<int>
     {
         
         var user = new User(id, guid, name);
-         user.RaiseDomainEvent(new UserCreatedDomainEvent(id));
+        
+        user.RaiseDomainEvent(new UserCreatedDomainEvent(id));
         return user;
     } 
 
